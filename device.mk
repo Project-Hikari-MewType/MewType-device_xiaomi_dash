@@ -242,6 +242,15 @@ PRODUCT_COPY_FILES += \
 # ION
 $(call soong_config_set_bool,libion,legacy_impl,true)
 
+# Led
+PRODUCT_PACKAGES += \
+    DashLedService \
+    DashLedOverlay \
+    init.dash-led.rc
+
+DEVICE_PACKAGE_OVERLAYS += \
+    $(LOCAL_PATH)/overlay-lineage/DashLineageLights
+
 # Keymint
 PRODUCT_PACKAGES += \
     android.hardware.hardware_keystore_V3.xml

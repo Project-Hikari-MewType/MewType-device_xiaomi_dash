@@ -1,0 +1,12 @@
+# Copyright (C) 2026 YorokobiMaster
+# SPDX-License-Identifier: Apache-2.0
+
+# AW21024 ring light, i2c8 client at 0x30 (leds-color21024.c). The LED class
+# device lives below the i2c client, not below /sys/class/leds, so the generic
+# /class/leds genfscon never reaches its hwen/reg/run attribute files.
+#
+# Path verified against the built dash-merged.dtb: alias i2c8 -> /soc/i2c@13b30000,
+# aw21024_led@30 (status okay) -> /sys/devices/platform/soc/13b30000.i2c/
+# i2c-8/8-0030/leds/aw21024_led.
+genfscon sysfs /devices/platform/soc/13b30000.i2c/i2c-8/8-0030/leds/aw21024_led u:object_r:vendor_sysfs_led_file:s0
+genfscon sysfs /devices/platform/13b30000.i2c/i2c-8/8-0030/leds/aw21024_led u:object_r:vendor_sysfs_led_file:s0

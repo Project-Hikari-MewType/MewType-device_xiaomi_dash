@@ -1,0 +1,42 @@
+# Copyright (C) 2026 YorokobiMaster
+# SPDX-License-Identifier: Apache-2.0
+
+# Only DashLED receives the app-side permission to write the ring registers.
+type dash_led, domain, coredomain;
+app_domain(dash_led)
+allow dash_led app_api_service:service_manager find;
+allow dash_led system_api_service:service_manager find;
+
+# The AW21024 attribute files are labelled by sepolicy/private/genfs_contexts.
+# Upstream relies on the stock vendor policy already declaring this type with
+# its attributes; this tree builds vendor policy from source and does not have
+# it, so declare it here. It must carry sysfs_type (system/sepolicy/tests/
+# sepolicy_tests.py, TestSysfsTypeViolations) and fs_type: vendor domains get
+# broad "allow <domain> sysfs_type:... ioctl" rules, and the only reason those
+# do not trip the domain.te:633 neverallowxperm is the generic
+# "allowxperm domain { file_type fs_type ... } ioctl" allowlist, which needs
+# fs_type on the target.
+type vendor_sysfs_led_file, fs_type, sysfs_type;
+
+# /sys/class/leds/aw21024_led is a symlink created inside sysfs_leds; following
+# it needs read on the link, and /sys/class/leds itself needs search.
+allow dash_led sysfs_leds:lnk_file read;
+allow dash_led { sysfs_leds vendor_sysfs_led_file }:dir search;
+
+# Explicit permission list: rw_file_perms would pull in ioctl and trip the
+# domain.te no-arbitrary-ioctl neverallow.
+allow dash_led vendor_sysfs_led_file:file { getattr open read write };
+
+# init's builtin chmod in init.dash-led.rc makes the nodes world-writable at
+# sys.boot_completed. init's generic pseudo-filesystem setattr does not cover
+# sysfs types on Android 16, so grant it explicitly, including the traversal
+# through the /sys/class/leds symlink.
+allow init sysfs_leds:dir search;
+allow init sysfs_leds:lnk_file read;
+allow init vendor_sysfs_led_file:dir search;
+allow init vendor_sysfs_led_file:file setattr;
+
+# App domains carry MLS categories (s0:c512,c768) while the sysfs nodes sit at
+# bare s0, so the mls:108 write constraint (l1 eq l2) rejects writes even with
+# the TE allow above. Exempt the object side; TE still gates who writes.
+typeattribute vendor_sysfs_led_file mlstrustedobject;
