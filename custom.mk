@@ -32,6 +32,8 @@ TARGET_INCLUDE_BCR := true
 # GMS
 WITH_GMS := true
 TARGET_FACE_UNLOCK_SUPPORTED := true
+LINEAGE_BUILDTYPE := UNOFFICIAL
 
 # Bypass Lock State for Fenrir
 $(call soong_config_set_bool,fastbootd,bypass_lock_state,true)
+

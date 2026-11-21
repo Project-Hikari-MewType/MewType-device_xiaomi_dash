@@ -1,0 +1,5 @@
+# Copyright (C) 2026 YorokobiMaster
+# SPDX-License-Identifier: Apache-2.0
+
+# DashLED
+user=_app seinfo=platform isPrivApp=true name=me.sandai.dashled domain=dash_led type=privapp_data_file levelFrom=user
