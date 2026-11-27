@@ -4,4 +4,4 @@
 #
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/rr_dash.mk
+    $(LOCAL_DIR)/custom_dash.mk

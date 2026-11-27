@@ -161,7 +161,7 @@ PRODUCT_COPY_FILES += \
 
 # Dolby
 PRODUCT_PACKAGES += \
-    LunarisDolby
+    DolbyAtmos
 
 # DRM
 PRODUCT_PACKAGES += \

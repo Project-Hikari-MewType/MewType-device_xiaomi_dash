@@ -11,14 +11,14 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 $(call inherit-product, device/xiaomi/dash/device.mk)
 
 # Inherit some common LineageOS stuff.
-$(call inherit-product, vendor/rr/config/common_full_phone.mk)
+$(call inherit-product, vendor/custom/config/common_full_phone.mk)
 
 # Inherit some common Evolution-X stuff.
 $(call inherit-product, device/xiaomi/dash/custom.mk)
 
 # Device identifier.
 PRODUCT_DEVICE := dash
-PRODUCT_NAME := rr_dash
+PRODUCT_NAME := custom_dash
 PRODUCT_BRAND := POCO
 PRODUCT_MODEL := 2602BPC18G
 PRODUCT_MANUFACTURER := Xiaomi
