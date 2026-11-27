@@ -37,3 +37,7 @@ LINEAGE_BUILDTYPE := UNOFFICIAL
 # Bypass Lock State for Fenrir
 $(call soong_config_set_bool,fastbootd,bypass_lock_state,true)
 
+
+# Remove unwanted packages
+PRODUCT_PACKAGES += \
+     RemovePackages
